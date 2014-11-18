@@ -15,7 +15,7 @@ public abstract class ChordSuggestorState {
 	public abstract ChordSuggestion suggest(int optionNum, Chord previous, Note mel);
 	public abstract int getNumOfOpts();
 	
-	//----Suggestions:
+	//----Suggestions :
 	private static void keepInversion(ChordSuggestion cs,Chord previous){
 		if(previous.getClass() == Trichord.class){
 			cs.setChordVariation(ChordVariation.P5);
