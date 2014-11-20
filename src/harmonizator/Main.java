@@ -14,7 +14,8 @@ public class Main {
 		//reasonForCBAndCF();
 		//makeT5Comparsion();
 		//trySolvingAMelody();
-		
+
+
 	}
 	private static void tryFifthsRule(){
 		Rule pf = ParallelFifths.getInstance();

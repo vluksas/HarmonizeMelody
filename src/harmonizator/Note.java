@@ -1,12 +1,22 @@
 package harmonizator;
 
+import java.math.BigDecimal;
+
 public class Note {
 	private NoteValue val = NoteValue.Quarter; 
 	private int id;
 	private String octName;
 	private String noteName;
 	private String noteLetterName;//natos raidinis pavadinimas
+	private int bogus;
+	private int other_bogus;
 	
+	public void setBogus(){
+		bogus = 3;
+	}
+	public int getOtherBogus(){
+		return other_bogus;
+	}
 	public double getNoteValue(){
 		switch(val){
 			case Eighth:
