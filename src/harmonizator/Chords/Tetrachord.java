@@ -162,7 +162,11 @@ public class Tetrachord extends ChordGeneric {
 	}
 	
 	public int getSeventhIndex(){
-		return getNoteIndexByPosition(ChordPosition.Seventh);
+		if(notePositions != null){
+			return getNoteIndexByPosition(ChordPosition.Seventh);
+		}else{
+			return -1;
+		}
 	}
 	
 	public void bassUp(){
