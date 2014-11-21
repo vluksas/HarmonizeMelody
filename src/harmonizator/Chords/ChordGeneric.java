@@ -78,6 +78,9 @@ public class ChordGeneric implements Chord{
 	
 	public String toString(){
 		String result = "";
+		if(notes == null){
+			return "";
+		}
 		for(Note n: notes){
 			result += n.getNoteLetterName() + Integer.toString(n.getOctNameNumeric()) + ";";
 		}
