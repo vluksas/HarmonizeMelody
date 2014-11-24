@@ -1,16 +1,21 @@
 package harmonizator.Solver;
 
 import harmonizator.Note;
-import harmonizator.Chords.Chord;
 import harmonizator.Chords.*;
+import harmonizator.Solver.JoiningPropositions.JoiningProposition;
+import harmonizator.Solver.JoiningPropositions.KeepSDSwitchInversionProposition;
+import harmonizator.Solver.JoiningPropositions.KeepSameProposition;
+import harmonizator.Solver.JoiningPropositions.SwitchSDKeepInversionProposition;
+import harmonizator.Solver.JoiningPropositions.SwitchSDSwitchInversionProposition;
 
 
 
 public class ExpositionalHarmonyEndOfBarState extends ChordSuggestorState{
-	private static final int NUMBER_OF_OPTIONS = 8;
+	private static final int NUMBER_OF_OPTIONS = 10;
 	private static ExpositionalHarmonyEndOfBarState instance = null;
-	
+	private JoiningProposition proposer = null;
 	private ExpositionalHarmonyEndOfBarState(){
+		buildChain();
 	}
 	
 	public static ExpositionalHarmonyEndOfBarState getInstance(){
@@ -18,47 +23,30 @@ public class ExpositionalHarmonyEndOfBarState extends ChordSuggestorState{
 			instance = new ExpositionalHarmonyEndOfBarState();
 			return instance;
 		}else{
-			return instance; 
+			return instance;  
 		}
 	}
 	@Override
 	public ChordSuggestion suggest(int optionNum, Chord previous, Note mel) {
-		// TODO Auto-generated method stub
-		ChordSuggestion cs = new ChordSuggestion();
-		switch(optionNum){
-			case 1:
-				differentSDByPreference(cs,previous,1);
-				break;
-			case 2:
-				differentSDByPreferenceSwitchInversion(cs,previous,1);
-				break;
-			case 3:
-				differentSDByPreference(cs,previous,2);
-				break;
-			case 4:
-				differentSDByPreferenceSwitchInversion(cs,previous,2);
-				break;
-			case 5:
-				differentSDByPreference(cs,previous,3);
-				break;
-			case 6:
-				differentSDByPreferenceSwitchInversion(cs,previous,3);
-				break;
-			case 7:
-				keepSame(cs,previous);
-				break;
-			case 8:
-				keepSDswitchInversion(cs,previous);
-				break;
-			default:
-				cs.unset();
-				break;	
-		}
-		return cs;
+		ChordSuggestion cs = proposer.suggest(optionNum, previous);
+		return cs;	
 	}
 	@Override
 	public int getNumOfOpts() {
 		// TODO Auto-generated method stub
 		return NUMBER_OF_OPTIONS;
+	}
+	private void buildChain(){
+		JoiningProposition links[] = new JoiningProposition[JoiningProposition.MAX_PREFERENCE*2+1];
+		links[JoiningProposition.MAX_PREFERENCE*2] = null;
+		for(int i = JoiningProposition.MAX_PREFERENCE;i >= JoiningProposition.MIN_PREFERENCE;i--){
+			links[i*2-1] = new SwitchSDSwitchInversionProposition(links[i*2],i);
+			links[i*2-2] = new SwitchSDKeepInversionProposition(links[i*2-1],i);
+		}
+		JoiningProposition link2 = new KeepSDSwitchInversionProposition(null);
+		JoiningProposition link = new KeepSameProposition(null);
+		links[JoiningProposition.MAX_PREFERENCE*2].setNext(link);
+		link.setNext(link2);
+
 	}
 }

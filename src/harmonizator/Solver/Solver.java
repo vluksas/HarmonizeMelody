@@ -119,8 +119,9 @@ public class Solver {
 		csug.resetBarPosition();
 		harmony = new ArrayList<Chord>();
 		switch(solutionNumber){
-			case 0: preferWide = false;
-			case 1: preferWide = true;
+			case 0: preferWide = false;break;
+			case 1: preferWide = true;break;
+			default: break;
 		}
 		csug.resetBarPosition();
 		//Harmonize first note

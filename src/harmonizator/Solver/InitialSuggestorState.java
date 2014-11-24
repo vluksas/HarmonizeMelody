@@ -1,16 +1,23 @@
 package harmonizator.Solver;
 
 import harmonizator.Note;
-import harmonizator.Chords.Chord;
 import harmonizator.Chords.*;
+import harmonizator.Solver.JoiningPropositions.DominantProposition;
+import harmonizator.Solver.JoiningPropositions.DominantTC2Proposition;
+import harmonizator.Solver.JoiningPropositions.JoiningProposition;
+import harmonizator.Solver.JoiningPropositions.KeepSDSwitchInversionProposition;
+import harmonizator.Solver.JoiningPropositions.KeepSameProposition;
+import harmonizator.Solver.JoiningPropositions.SwitchSDKeepInversionProposition;
+import harmonizator.Solver.JoiningPropositions.SwitchSDSwitchInversionProposition;
+import harmonizator.Solver.JoiningPropositions.TonicProposition;
 
 
 
 public class InitialSuggestorState extends ChordSuggestorState{
 	private static final int NUMBER_OF_OPTIONS = 3;
 	private static InitialSuggestorState instance = null;
-	
 	private InitialSuggestorState(){
+		buildChain();
 	}
 	
 	public static InitialSuggestorState getInstance(){
@@ -22,28 +29,16 @@ public class InitialSuggestorState extends ChordSuggestorState{
 		}
 	}
 	@Override
-	public ChordSuggestion suggest(int optionNum, Chord previous, Note mel) {
-		// TODO Auto-generated method stub
-		ChordSuggestion cs = new ChordSuggestion();
-		switch(optionNum){
-			case 1:
-				suggestTonic(cs);
-				break;
-			case 2:
-				suggestDominant(cs);
-				break;
-			case 3:
-				suggestDominantTC2(cs);
-				break;					
-			default:
-				cs.unset();
-				break;	
-		}
-		return cs;
-	}
-	@Override
 	public int getNumOfOpts() {
 		// TODO Auto-generated method stub
 		return NUMBER_OF_OPTIONS;
+	}
+	private void buildChain(){
+		JoiningProposition link3 = new DominantTC2Proposition(null);
+		JoiningProposition link2 = new DominantProposition(null);
+		proposer = new TonicProposition(null);
+		proposer.setNext(link2);
+		link2.setNext(link3);
+		
 	}
 }

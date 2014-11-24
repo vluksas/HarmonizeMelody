@@ -82,6 +82,11 @@ public class ChordSelector {
 		setDoubledPosPreference(ChordType.Trichord);
 	}
 	
+	public void selectX6(){
+		chordToBuild.setChordPos(ChordPosition.Third);
+		setDoubledPosPreference(ChordType.Trichord);
+	}
+	
 	public void selectT6(){
 		chordToBuild.setScDegree(ScaleDegree.Tonic);
 		chordToBuild.setChordPos(ChordPosition.Third);
