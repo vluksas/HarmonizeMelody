@@ -1,7 +1,5 @@
 package harmonizator.Solver;
 
-import harmonizator.Note;
-import harmonizator.Chords.*;
 import harmonizator.Solver.JoiningPropositions.JoiningProposition;
 import harmonizator.Solver.JoiningPropositions.KeepSDSwitchInversionProposition;
 import harmonizator.Solver.JoiningPropositions.KeepSameProposition;
@@ -13,7 +11,6 @@ import harmonizator.Solver.JoiningPropositions.SwitchSDSwitchInversionPropositio
 public class ExpositionalHarmonyGeneralState extends ChordSuggestorState{
 	private static final int NUMBER_OF_OPTIONS = 10;
 	private static ExpositionalHarmonyGeneralState instance = null;
-	private JoiningProposition proposer = null;
 	private ExpositionalHarmonyGeneralState(){
 		buildChain();
 	}
@@ -25,11 +22,6 @@ public class ExpositionalHarmonyGeneralState extends ChordSuggestorState{
 		}else{
 			return instance;  
 		}
-	}
-	@Override
-	public ChordSuggestion suggest(int optionNum, Chord previous, Note mel) {
-		ChordSuggestion cs = proposer.suggest(optionNum, previous);
-		return cs;	
 	}
 	@Override
 	public int getNumOfOpts() {

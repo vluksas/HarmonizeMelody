@@ -55,6 +55,11 @@ public class Solver {
 	public void addToAvailableChords(ChordTypePicker ctp){
 		chordTP.add(ctp);
 	}
+	public void addToAvailableChords(Iterable<ChordTypePicker> ctps){
+		for(ChordTypePicker ctp:ctps){
+			chordTP.add(ctp);
+		}
+	}
 	private void setBaseChords(){
 		chordTP.add(new T5Picker());
 		chordTP.add(new S5Picker());
@@ -79,7 +84,7 @@ public class Solver {
 		csug.updatePositionInBar(result.getNoteValue());
 		return result;
 	}
-	
+
 	public void addNote(Note n){
 		melody.add(n);
 	}
@@ -119,9 +124,14 @@ public class Solver {
 		csug.resetBarPosition();
 		harmony = new ArrayList<Chord>();
 		switch(solutionNumber){
-			case 0: preferWide = false;break;
-			case 1: preferWide = true;break;
-			default: break;
+		case 0: 
+			preferWide = false;
+			break;
+		case 1: 
+			preferWide = true;
+			break;
+		default: 
+			break;
 		}
 		csug.resetBarPosition();
 		//Harmonize first note
@@ -142,7 +152,7 @@ public class Solver {
 	 * return true if note was successfully harmonized, false otherwise
 	 */
 	private boolean solveNext(ChordSuggestor cs, Note currentNote, Chord previousChord){
-		for(int i = 1;i < cs.getNumOfOpts();i++){
+		for(int i = 0;i < cs.getNumOfOpts();i++){
 			ChordSuggestion sug = cs.suggest(i, previousChord, currentNote);
 			if(sug.isSet()){
 				if(attemptToHarmonize(sug,currentNote,previousChord) == true){
@@ -152,7 +162,7 @@ public class Solver {
 				harmony.add(null);
 				return false;
 			}
-			
+
 		}
 		harmony.add(null);
 		return false;
@@ -170,7 +180,7 @@ public class Solver {
 		}	
 		return false;
 	}
-	
+
 	/*
 	 * Attempts to use given suggestion to harmonize the given note
 	 * also tries to vary bass to find a fitting chord setup
@@ -227,13 +237,13 @@ public class Solver {
 		}
 
 		//Choose wideness
-		
+
 		if(tryWide){
 			cb.selectWide();
 		}else{
 			cb.selectNarrow();
 		}
-		
+
 		Chord result = cb.buildChord();
 		//Check whether octave is correct
 		if(result.getNotes() == null){
@@ -252,7 +262,7 @@ public class Solver {
 		while(c.getNote(ChordGeneric.TOP_CHORD_INDEX).getId() < targetNote.getId()){
 			c.octaveUp();
 			cb.raiseOct();
-			
+
 		}
 		while(c.getNote(ChordGeneric.TOP_CHORD_INDEX).getId() > targetNote.getId()){
 			c.octaveDown();
@@ -311,6 +321,6 @@ public class Solver {
 			return false;
 		}
 		return true;
-		
+
 	}
 }

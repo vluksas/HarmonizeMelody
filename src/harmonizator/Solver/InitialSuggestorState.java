@@ -1,14 +1,8 @@
 package harmonizator.Solver;
 
-import harmonizator.Note;
-import harmonizator.Chords.*;
 import harmonizator.Solver.JoiningPropositions.DominantProposition;
 import harmonizator.Solver.JoiningPropositions.DominantTC2Proposition;
 import harmonizator.Solver.JoiningPropositions.JoiningProposition;
-import harmonizator.Solver.JoiningPropositions.KeepSDSwitchInversionProposition;
-import harmonizator.Solver.JoiningPropositions.KeepSameProposition;
-import harmonizator.Solver.JoiningPropositions.SwitchSDKeepInversionProposition;
-import harmonizator.Solver.JoiningPropositions.SwitchSDSwitchInversionProposition;
 import harmonizator.Solver.JoiningPropositions.TonicProposition;
 
 

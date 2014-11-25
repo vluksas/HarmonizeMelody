@@ -60,14 +60,7 @@ public class JoiningPropositionTests {
 		ChordSuggestion expected = new ChordSuggestion();
 		expected.setScDeg(ScaleDegree.Dominant);
 		expected.setChordVariation(ChordVariation.P5);
-		JoiningProposition links[] = new JoiningProposition[JoiningProposition.MAX_PREFERENCE*2+1];
-		links[JoiningProposition.MAX_PREFERENCE*2] = null;
-		for(int i = JoiningProposition.MAX_PREFERENCE;i >= JoiningProposition.MIN_PREFERENCE;i--){
-			links[i*2-1] = new SwitchSDSwitchInversionProposition(links[i*2],i);
-			links[i*2-2] = new SwitchSDKeepInversionProposition(links[i*2-1],i);
-		}
-		JoiningProposition link2 = new KeepSDSwitchInversionProposition(links[0]);
-		JoiningProposition base = new KeepSameProposition(link2);
+		JoiningProposition base = createExpositionalHarmonyChain();
 		ChordSelector cs = new ChordSelector();
 		cs.selectD5();
 		ChordSuggestion actual = base.suggest(0, cs.buildChord());
@@ -78,14 +71,7 @@ public class JoiningPropositionTests {
 		ChordSuggestion expected = new ChordSuggestion();
 		expected.setScDeg(ScaleDegree.Tonic);
 		expected.setChordVariation(ChordVariation.P6);
-		JoiningProposition links[] = new JoiningProposition[JoiningProposition.MAX_PREFERENCE*2+1];
-		links[JoiningProposition.MAX_PREFERENCE*2] = null;
-		for(int i = JoiningProposition.MAX_PREFERENCE;i >= JoiningProposition.MIN_PREFERENCE;i--){
-			links[i*2-1] = new SwitchSDSwitchInversionProposition(links[i*2],i);
-			links[i*2-2] = new SwitchSDKeepInversionProposition(links[i*2-1],i);
-		}
-		JoiningProposition link2 = new KeepSDSwitchInversionProposition(links[0]);
-		JoiningProposition base = new KeepSameProposition(link2);
+		JoiningProposition base = createExpositionalHarmonyChain();
 		ChordSelector cs = new ChordSelector();
 		cs.selectD5();
 		ChordSuggestion actual = base.suggest(3, cs.buildChord());
@@ -96,14 +82,7 @@ public class JoiningPropositionTests {
 		ChordSuggestion expected = new ChordSuggestion();
 		expected.setScDeg(ScaleDegree.Supertonic);
 		expected.setChordVariation(ChordVariation.P6);
-		JoiningProposition links[] = new JoiningProposition[JoiningProposition.MAX_PREFERENCE*2+1];
-		links[JoiningProposition.MAX_PREFERENCE*2] = null;
-		for(int i = JoiningProposition.MAX_PREFERENCE;i >= JoiningProposition.MIN_PREFERENCE;i--){
-			links[i*2-1] = new SwitchSDSwitchInversionProposition(links[i*2],i);
-			links[i*2-2] = new SwitchSDKeepInversionProposition(links[i*2-1],i);
-		}
-		JoiningProposition link2 = new KeepSDSwitchInversionProposition(links[0]);
-		JoiningProposition base = new KeepSameProposition(link2);
+		JoiningProposition base = createExpositionalHarmonyChain();
 		ChordSelector cs = new ChordSelector();
 		cs.selectT6();
 		ChordSuggestion actual = base.suggest(6, cs.buildChord());
@@ -113,6 +92,24 @@ public class JoiningPropositionTests {
 	public void testExpositionalHarmonyChain_OutOfBounds(){
 		ChordSuggestion expected = new ChordSuggestion();
 		expected.unset();
+		JoiningProposition base = createExpositionalHarmonyChain();
+		ChordSelector cs = new ChordSelector();
+		cs.selectT6();
+		ChordSuggestion actual = base.suggest(16, cs.buildChord());
+		assertEquals(expected,actual);
+	}
+	@Test
+	public void testExpositionalHarmonyChain_SubTonicSkips(){
+		ChordSuggestion expected = new ChordSuggestion();
+		expected.unset();
+		JoiningProposition base = createExpositionalHarmonyChain();
+		ChordSelector cs = new ChordSelector();
+		cs.selectX6();
+		cs.selectScaleDegree(2);
+		ChordSuggestion actual = base.suggest(6, cs.buildChord());
+		assertEquals(expected,actual);
+	}
+	private JoiningProposition createExpositionalHarmonyChain() {
 		JoiningProposition links[] = new JoiningProposition[JoiningProposition.MAX_PREFERENCE*2+1];
 		links[JoiningProposition.MAX_PREFERENCE*2] = null;
 		for(int i = JoiningProposition.MAX_PREFERENCE;i >= JoiningProposition.MIN_PREFERENCE;i--){
@@ -121,10 +118,7 @@ public class JoiningPropositionTests {
 		}
 		JoiningProposition link2 = new KeepSDSwitchInversionProposition(links[0]);
 		JoiningProposition base = new KeepSameProposition(link2);
-		ChordSelector cs = new ChordSelector();
-		cs.selectT6();
-		ChordSuggestion actual = base.suggest(16, cs.buildChord());
-		assertEquals(expected,actual);
+		return base;
 	}
 
 }

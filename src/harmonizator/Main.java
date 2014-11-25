@@ -13,7 +13,7 @@ public class Main {
 		//tryChordBuilder();
 		//reasonForCBAndCF();
 		//makeT5Comparsion();
-		//trySolvingAMelody();
+		trySolvingAMelody();
 
 
 	}
@@ -276,8 +276,10 @@ public class Main {
 			s.addNote(n);//add melody to solver
 		}
 		solve(s,melodyNotes);//lacks chords to find a solution
-		s.addToAvailableChords(new S6Picker());//add additional chord type
+		System.out.println(">>> Adding S6 to available chords <<<");
+		s.addToAvailableChords(new S6Picker());//add additional chord type		
 		solve(s,melodyNotes);//solution found
+		System.out.println(">>> Removing all rules <<<");
 		rs.removeRule(ParallelFifths.getInstance());
 		rs.removeRule(ParallelOctaves.getInstance());
 		rs.removeRule(AllVoicesUp.getInstance());

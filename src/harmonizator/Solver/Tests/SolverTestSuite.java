@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
    ChordSuggestorTests.class,
    ChordTypePickerTests.class,
    SolverTests.class,
+   JoiningPropositionTests.class
 })
 public class SolverTestSuite {   
 }

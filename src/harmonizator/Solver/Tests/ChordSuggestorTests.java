@@ -36,7 +36,7 @@ public class ChordSuggestorTests {
 		csel.selectT5();
 		Chord prev = csel.buildChord();
 		cs.setPositionInSolution(1, 0.25);//set state to Expositional
-		ChordSuggestion res = cs.suggest(1, prev, new Note(49));
+		ChordSuggestion res = cs.suggest(0, prev, new Note(49));
 		assertEquals(ScaleDegree.Tonic,res.getScDeg());
 		assertEquals(ChordVariation.P5,res.getChordVariation());
 	}
@@ -47,7 +47,7 @@ public class ChordSuggestorTests {
 		csel.selectS6();
 		Chord prev = csel.buildChord();
 		cs.setPositionInSolution(1, 0.25);//set state to Expositional
-		ChordSuggestion res = cs.suggest(1, prev, new Note(54));
+		ChordSuggestion res = cs.suggest(0, prev, new Note(54));
 		assertEquals(ScaleDegree.Subdominant,res.getScDeg());
 		assertEquals(ChordVariation.P6,res.getChordVariation());
 	}
@@ -58,7 +58,7 @@ public class ChordSuggestorTests {
 		csel.selectD7();
 		Chord prev = csel.buildChord();
 		cs.setPositionInSolution(1, 0.25);//set state to Expositional
-		ChordSuggestion res = cs.suggest(1, prev, new Note(56));
+		ChordSuggestion res = cs.suggest(0, prev, new Note(56));
 		assertEquals(ScaleDegree.Dominant,res.getScDeg());
 		assertEquals(ChordVariation.P7,res.getChordVariation());
 	}
