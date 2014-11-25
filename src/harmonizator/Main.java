@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import harmonizator.Chords.*;
 import harmonizator.Rules.*;
 import harmonizator.Solver.Solver;
+import harmonizator.Solver.ChordTypePicker.ChordTypePicker;
+import harmonizator.Solver.ChordTypePicker.ChordTypePickerArrayAdapter;
+import harmonizator.Solver.ChordTypePicker.ChordTypePickerGeneral;
 import harmonizator.Solver.ChordTypePicker.S6Picker;
 public class Main { 
 
@@ -13,8 +16,11 @@ public class Main {
 		//tryChordBuilder();
 		//reasonForCBAndCF();
 		//makeT5Comparsion();
-		trySolvingAMelody();
-
+		trySolvingAMelodyFull();
+		System.out.println();
+		System.out.println("<<< Try with adapter >>>");
+		System.out.println();
+		trySolvingAMelodyAdapter();
 
 	}
 	private static void tryFifthsRule(){
@@ -134,7 +140,9 @@ public class Main {
 		rs.addRule(AllVoicesUp.getInstance());
 		rs.addRule(AllVoicesDown.getInstance());
 		//Create a solver
-		Solver s = new Solver();//uses three basic chords: T5 S5 and D5
+		//uses three basic chords: T5 S5 and D5
+		ChordTypePicker ctp = ChordTypePickerGeneral.buildBaseChordTree();
+		Solver s = new Solver(ctp);
 		//Create a melody:
 		Note[] melodyNotes = new Note[42];
 		melodyNotes[0] = new Note(56);
@@ -226,10 +234,136 @@ public class Main {
 		
 		melodyNotes[40] = new Note(49);
 		melodyNotes[41] = new Note(49);
+		for(Note n: melodyNotes){
+			s.addNote(n);//add melody to solver
+		}
+		solve(s,melodyNotes);//solution found
+		System.out.println(">>> Adding S6 to available chords <<<");
+		s.addToAvailableChords(new S6Picker());//add additional chord type		
+		solve(s,melodyNotes);//solution found
+		System.out.println(">>> Removing all rules <<<");
+		rs.removeRule(ParallelFifths.getInstance());
+		rs.removeRule(ParallelOctaves.getInstance());
+		rs.removeRule(AllVoicesUp.getInstance());
+		rs.removeRule(AllVoicesDown.getInstance());
+		solve(s,melodyNotes);//solution (no rules) found
 		
-		solve(s,melodyNotes);//lacks chords to find a solution
-		s.addToAvailableChords(new S6Picker());//add additional chord type
-		solve(s,melodyNotes);//still lacks chords to find a solution
+	}
+	private static void trySolvingAMelodyAdapter(){
+		//set up the rules
+		RuleSet rs = RuleSet.getRuleSet();
+		rs.addRule(ParallelFifths.getInstance());
+		rs.addRule(ParallelOctaves.getInstance());
+		rs.addRule(AllVoicesUp.getInstance());
+		rs.addRule(AllVoicesDown.getInstance());
+		//Create a solver
+		//uses three basic chords: T5 S5 and D5
+		ChordTypePicker ctp = ChordTypePickerArrayAdapter.buildBaseList();
+		Solver s = new Solver(ctp);
+		//Create a melody:
+		Note[] melodyNotes = new Note[42];
+		melodyNotes[0] = new Note(56);
+		melodyNotes[0].setVal(NoteValue.Eighth);
+		melodyNotes[1] = new Note(56);
+		melodyNotes[1].setVal(NoteValue.Eighth);
+		melodyNotes[2] = new Note(53);
+		melodyNotes[2].setVal(NoteValue.Eighth);
+		melodyNotes[3] = new Note(49);
+		melodyNotes[3].setVal(NoteValue.Eighth);
+		
+		melodyNotes[4] = new Note(56);
+		melodyNotes[4].setVal(NoteValue.Eighth);
+		melodyNotes[5] = new Note(56);
+		melodyNotes[5].setVal(NoteValue.Eighth);
+		melodyNotes[6] = new Note(53);
+		melodyNotes[6].setVal(NoteValue.Eighth);
+		melodyNotes[7] = new Note(49);
+		melodyNotes[7].setVal(NoteValue.Eighth);
+		
+		melodyNotes[8] = new Note(54);
+		melodyNotes[8].setVal(NoteValue.Eighth);
+		melodyNotes[9] = new Note(58);
+		melodyNotes[9].setVal(NoteValue.Eighth);
+		melodyNotes[10] = new Note(61);
+		melodyNotes[10].setVal(NoteValue.Eighth);
+		melodyNotes[11] = new Note(58);
+		melodyNotes[11].setVal(NoteValue.Eighth);
+		
+		melodyNotes[12] = new Note(56);
+		melodyNotes[13] = new Note(56);
+		
+		melodyNotes[14] = new Note(54);
+		melodyNotes[14].setVal(NoteValue.Eighth);
+		melodyNotes[15] = new Note(58);
+		melodyNotes[15].setVal(NoteValue.Eighth);
+		melodyNotes[16] = new Note(58);
+		melodyNotes[16].setVal(NoteValue.Eighth);
+		melodyNotes[17] = new Note(54);
+		melodyNotes[17].setVal(NoteValue.Eighth);
+
+		melodyNotes[18] = new Note(53);
+		melodyNotes[18].setVal(NoteValue.Eighth);
+		melodyNotes[19] = new Note(56);
+		melodyNotes[19].setVal(NoteValue.Eighth);
+		melodyNotes[20] = new Note(56);
+		melodyNotes[20].setVal(NoteValue.Eighth);
+		melodyNotes[21] = new Note(53);
+		melodyNotes[21].setVal(NoteValue.Eighth);
+		
+		melodyNotes[22] = new Note(51);
+		melodyNotes[22].setVal(NoteValue.Eighth);
+		melodyNotes[23] = new Note(54);
+		melodyNotes[23].setVal(NoteValue.Eighth);
+		melodyNotes[24] = new Note(53);
+		melodyNotes[24].setVal(NoteValue.Eighth);
+		melodyNotes[25] = new Note(51);
+		melodyNotes[25].setVal(NoteValue.Eighth);
+		
+		melodyNotes[26] = new Note(49);
+		melodyNotes[27] = new Note(49);
+		
+		melodyNotes[28] = new Note(54);
+		melodyNotes[28].setVal(NoteValue.Eighth);
+		melodyNotes[29] = new Note(58);
+		melodyNotes[29].setVal(NoteValue.Eighth);
+		melodyNotes[30] = new Note(58);
+		melodyNotes[30].setVal(NoteValue.Eighth);
+		melodyNotes[31] = new Note(54);
+		melodyNotes[31].setVal(NoteValue.Eighth);
+
+		melodyNotes[32] = new Note(53);
+		melodyNotes[32].setVal(NoteValue.Eighth);
+		melodyNotes[33] = new Note(56);
+		melodyNotes[33].setVal(NoteValue.Eighth);
+		melodyNotes[34] = new Note(56);
+		melodyNotes[34].setVal(NoteValue.Eighth);
+		melodyNotes[35] = new Note(53);
+		melodyNotes[35].setVal(NoteValue.Eighth);
+		
+		melodyNotes[36] = new Note(51);
+		melodyNotes[36].setVal(NoteValue.Eighth);
+		melodyNotes[37] = new Note(54);
+		melodyNotes[37].setVal(NoteValue.Eighth);
+		melodyNotes[38] = new Note(53);
+		melodyNotes[38].setVal(NoteValue.Eighth);
+		melodyNotes[39] = new Note(51); 
+		melodyNotes[39].setVal(NoteValue.Eighth);
+		
+		melodyNotes[40] = new Note(49);
+		melodyNotes[41] = new Note(49);
+		for(Note n: melodyNotes){
+			s.addNote(n);//add melody to solver
+		}
+		solve(s,melodyNotes);//solution found
+		System.out.println(">>> Adding S6 to available chords <<<");
+		s.addToAvailableChords(new S6Picker());//add additional chord type		
+		solve(s,melodyNotes);//solution found
+		System.out.println(">>> Removing all rules <<<");
+		rs.removeRule(ParallelFifths.getInstance());
+		rs.removeRule(ParallelOctaves.getInstance());
+		rs.removeRule(AllVoicesUp.getInstance());
+		rs.removeRule(AllVoicesDown.getInstance());
+		solve(s,melodyNotes);//solution (no rules) found
 		
 	}
 	private static void trySolvingAMelody(){
@@ -239,8 +373,10 @@ public class Main {
 		rs.addRule(ParallelOctaves.getInstance());
 		rs.addRule(AllVoicesUp.getInstance());
 		rs.addRule(AllVoicesDown.getInstance());
+		//uses three basic chords: T5 S5 and D5
+		ChordTypePicker ctp = ChordTypePickerGeneral.buildBaseChordTree();
 		//Create a solver
-		Solver s = new Solver();//uses three basic chords: T5 S5 and D5
+		Solver s = new Solver(ctp);
 		//Create a melody:
 		Note[] melodyNotes = new Note[14];
 		melodyNotes[0] = new Note(56);

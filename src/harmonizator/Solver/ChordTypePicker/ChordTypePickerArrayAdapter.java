@@ -1,14 +1,16 @@
 package harmonizator.Solver.ChordTypePicker;
 
+import harmonizator.ScaleDegree;
 import harmonizator.Chords.ChordSelector;
 import harmonizator.Solver.ChordSuggestion;
 
-public class ChordTypePickerAdapter implements ChordTypePicker{
+public class ChordTypePickerArrayAdapter implements ChordTypePicker{
 
-	ChordSuggestorArray cpicker;
-	ChordTypePicker stubPicker; 
-	public ChordTypePickerAdapter(){
-		cpicker = new ChordSuggestorArray();
+	private ChordTypePickerGeneralArray cpicker;
+	private ChordTypePicker stubPicker; 
+	
+	public ChordTypePickerArrayAdapter(){
+		cpicker = new ChordTypePickerGeneralArray();
 	}
 	@Override
 	public void pickType(ChordSelector cs, ChordSuggestion csug) {
@@ -23,8 +25,10 @@ public class ChordTypePickerAdapter implements ChordTypePicker{
 		switch(cs.getChordVariation()){
 		case P5:
 			realAddition = new X5PickerArray(cs.getScDeg());
+			break;
 		case P6:
 			realAddition = new X6PickerArray(cs.getScDeg());
+			break;
 		default:
 			realAddition = new NullPickerArray();//unimplemented case
 			break;
@@ -42,6 +46,17 @@ public class ChordTypePickerAdapter implements ChordTypePicker{
 	@Override
 	public ChordSuggestion getChordSuggestion() {
 		return stubPicker.getChordSuggestion();
+	}
+	public static ChordTypePickerArrayAdapter buildBaseList(){
+		//equivalent of ChordTypePickerGeneral.buildBaseChordTree()
+		ChordTypePickerArrayAdapter ctpa = new ChordTypePickerArrayAdapter();
+		addBasePickers(ctpa);
+		return ctpa;
+	}
+	private static void addBasePickers(ChordTypePickerArrayAdapter ctpa) {
+		ctpa.cpicker.add(new X5PickerArray(ScaleDegree.Tonic));
+		ctpa.cpicker.add(new X5PickerArray(ScaleDegree.Subdominant));
+		ctpa.cpicker.add(new X5PickerArray(ScaleDegree.Dominant));
 	}
 
 }

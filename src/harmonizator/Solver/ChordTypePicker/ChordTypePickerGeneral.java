@@ -161,6 +161,11 @@ public class ChordTypePickerGeneral implements ChordTypePicker{
 		}
 		return root;
 	}
+	public static ChordTypePicker buildBaseChordTree(){
+		ChordTypePicker root = ChordTypePickerGeneral.buildBaseTree();
+		ChordTypePickerGeneral.setBaseChords(root);
+		return root;
+	}
 	protected static ChordTypePicker createNode(ChordVariation cv,SplitElement se){
 		ChordSuggestion data = new ChordSuggestion();
 		data.setChordVariation(cv);
@@ -179,5 +184,18 @@ public class ChordTypePickerGeneral implements ChordTypePicker{
 		data.setScDeg(scDeg);
 		ChordTypePicker element = new ChordTypePickerGeneral(se,data);
 		return element;
+	}
+	public void addToAvailableChords(ChordTypePicker ctp){
+		this.add(ctp);
+	}
+	public void addToAvailableChords(Iterable<ChordTypePicker> ctps){
+		for(ChordTypePicker ctp:ctps){
+			this.add(ctp);
+		}
+	}
+	private static void setBaseChords(ChordTypePicker root){
+		root.add(new T5Picker());
+		root.add(new S5Picker());
+		root.add(new D5Picker());
 	}
 }

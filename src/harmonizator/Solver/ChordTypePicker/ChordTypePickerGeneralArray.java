@@ -5,10 +5,10 @@ import harmonizator.Solver.ChordSuggestion;
 
 import java.util.ArrayList;
 
-public class ChordSuggestorArray {
-	ArrayList<ChordTypePickerArray> chordTypes;
+public class ChordTypePickerGeneralArray {
+	private ArrayList<ChordTypePickerArray> chordTypes;
 	
-	public ChordSuggestorArray(){
+	public ChordTypePickerGeneralArray(){
 		chordTypes = new ArrayList<ChordTypePickerArray>();
 	}
 	

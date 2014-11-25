@@ -9,8 +9,6 @@ import harmonizator.Chords.ChordGeneric;
 import harmonizator.Chords.ChordPosition;
 import harmonizator.Chords.ChordSelector;
 import harmonizator.Rules.RuleSet;
-import harmonizator.Solver.ChordTypePicker.ChordTypePicker;
-import harmonizator.Solver.ChordTypePicker.ChordTypePickerGeneral;
 import harmonizator.Solver.ChordTypePicker.*;
 
 import java.util.ArrayList;
@@ -31,24 +29,29 @@ public class Solver {
 		harmony = new ArrayList<Chord>();
 		cb = new ChordSelector();
 		notesSolved = 0;
-		chordTP = ChordTypePickerGeneral.buildBaseTree();
-		setBaseChords();
+		chordTP = new ChordTypePickerNull();
 		csug = new ChordSuggestor();
 	}
-	public Solver(int meterTopN,int meterBottomN){
+	public Solver(ChordTypePicker chordSet){
 		melody = new ArrayList<Note>();
 		harmony = new ArrayList<Chord>();
 		cb = new ChordSelector();
-		chordTP = ChordTypePickerGeneral.buildBaseTree();
-		setBaseChords();
+		notesSolved = 0;
+		chordTP = chordSet;
+		csug = new ChordSuggestor();
+	}
+	public Solver(int meterTopN,int meterBottomN,ChordTypePicker chordSet){
+		melody = new ArrayList<Note>();
+		harmony = new ArrayList<Chord>();
+		cb = new ChordSelector();
+		chordTP = chordSet;
 		csug = new ChordSuggestor(meterTopN,meterBottomN);
 	}
-	public Solver(int meterTopN,int meterBottomN,Tonality t){
+	public Solver(int meterTopN,int meterBottomN,Tonality t,ChordTypePicker chordSet){
 		melody = new ArrayList<Note>();
 		harmony = new ArrayList<Chord>();
 		cb = new ChordSelector(t);
-		chordTP = ChordTypePickerGeneral.buildBaseTree();
-		setBaseChords();
+		chordTP = chordSet;
 		csug = new ChordSuggestor(meterTopN,meterBottomN);
 	}
 
@@ -59,11 +62,6 @@ public class Solver {
 		for(ChordTypePicker ctp:ctps){
 			chordTP.add(ctp);
 		}
-	}
-	private void setBaseChords(){
-		chordTP.add(new T5Picker());
-		chordTP.add(new S5Picker());
-		chordTP.add(new D5Picker());
 	}
 	/*
 	 * Gets next note of the melody (used in the solution process)
