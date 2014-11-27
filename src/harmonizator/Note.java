@@ -3,6 +3,8 @@ package harmonizator;
 import java.math.BigDecimal;
 
 public class Note {
+	public static final int MIN_OCTAVE = 0;
+	public static final int MAX_OCTAVE = 8;
 	private NoteValue val = NoteValue.Quarter; 
 	private int id;
 	private String octName;

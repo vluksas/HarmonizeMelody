@@ -33,7 +33,7 @@ public class TestClass{
 		return "nothing";
 	}
 	public boolean equals(Object o){
-		if(o != null){
+		if(o != null){ 
 			return true;
 		}else{
 			return false;

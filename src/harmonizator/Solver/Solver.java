@@ -89,7 +89,9 @@ public class Solver {
 	public ArrayList<Note> getMelody() {
 		return melody;
 	}
-
+	public void removeNoteAt(int index){
+		melody.remove(index);
+	}
 	public void setMelody(ArrayList<Note> melody) {
 		this.melody = melody;
 	}
